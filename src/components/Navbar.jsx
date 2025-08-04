@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Navbar() {
   return (
     <nav className="bg-indigo-600 text-white p-4 flex justify-between items-center">
-      <h1 className="text-xl font-bold">SkillSwap</h1>
+      <h1 className="text-2xl font-bold">SkillSwap</h1>
       <div className="space-x-4">
         <Link to="/" className="hover:underline">
           Home

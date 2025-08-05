@@ -10,7 +10,7 @@ function App() {
   const [skills, setSkills] = useState(dummySkills);
 
   function addSkill(newSkill) {
-    setSkills([...skills, newSkill]); // add to array
+    setSkills([newSkill, ...skills]);
   }
 
   return (

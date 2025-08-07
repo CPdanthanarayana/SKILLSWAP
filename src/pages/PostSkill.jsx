@@ -7,10 +7,12 @@ function PostSkill({ addSkill }) {
 
   const [formData, setFormData] = useState({
     name: "",
-    skill: "",
+    skillName: "",
+    require: "",
     description: "",
     location: "",
     image: "",
+    email: "",
   });
 
   function handleChange(e) {

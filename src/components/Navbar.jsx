@@ -12,9 +12,7 @@ function Navbar() {
         <Link to="/post" className="hover:underline">
           Offer Skill
         </Link>
-        <Link to="/request" className="hover:underline">
-          Need Skill
-        </Link>
+        
       </div>
     </nav>
   );

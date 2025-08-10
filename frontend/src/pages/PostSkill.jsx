@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SkillForm from "../components/SkillForm";
 
-function PostSkill({ addSkill }) {
+function PostSkill() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -25,9 +25,23 @@ function PostSkill({ addSkill }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    addSkill(formData);
-
-    navigate("/");
+    fetch("http://localhost:5000/api/skills/offerskill", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        alert("Skill added successfully!");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("Error creating skill. Please try again.");
+      });
   }
 
   return (

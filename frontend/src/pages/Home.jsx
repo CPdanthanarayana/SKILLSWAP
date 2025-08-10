@@ -1,9 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SkillCard from "../components/SkillCard";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
-function Home({ skillcard }) {
+function Home() {
+  const [skillcard, setSkillcard] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  // Fetch skills from MongoDB on component mount
+  useEffect(() => {
+    fetchSkills();
+  }, []);
+
+  const fetchSkills = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/skills");
+      const data = await response.json();
+      setSkillcard(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching skills:", error);
+      setLoading(false);
+    }
+  };
 
   // Filter the skills based on search term
   const filteredSkills = skillcard.filter((skill) =>
@@ -43,12 +62,14 @@ function Home({ skillcard }) {
         </div>
 
         {/* Skills Grid */}
-        {filteredSkills.length === 0 ? (
+        {loading ? (
+          <p className="text-gray-500">Loading skills...</p>
+        ) : filteredSkills.length === 0 ? (
           <p className="text-gray-500">No skills found.</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-12">
             {filteredSkills.map((skillcard, index) => (
-              <SkillCard key={index} skillcard={skillcard} />
+              <SkillCard key={skillcard._id || index} skillcard={skillcard} />
             ))}
           </div>
         )}

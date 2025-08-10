@@ -1,0 +1,28 @@
+# Node modules
+node_modules/
+
+# dotenv environment files
+.env
+
+# Log files
+*.log
+npm-debug.log*
+
+# Mac system files
+.DS_Store
+
+# VSCode settings
+.vscode/
+
+# Build folders
+/build/
+dist/
+
+# Coverage reports
+coverage/
+
+# React specific
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local

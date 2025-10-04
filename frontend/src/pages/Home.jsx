@@ -15,6 +15,9 @@ function Home() {
   const fetchSkills = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/skills");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const data = await response.json();
       setSkillcard(data);
       setLoading(false);

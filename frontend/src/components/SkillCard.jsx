@@ -1,6 +1,6 @@
 import React from "react";
 
-function SkillCard({ skillcard }) {
+function SkillCard({ skillcard, onDelete, currentUser }) {
   const { name, description, location, skillName, image, require, email } =
     skillcard;
 
@@ -76,6 +76,57 @@ This email was generated through SkillSwap platform.`;
     }
   };
 
+  const handleDeleteClick = async (e) => {
+    e.preventDefault();
+
+    if (!currentUser) {
+      alert("Please log in to delete skills");
+      return;
+    }
+
+    // Confirm deletion
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete your "${skillName}" skill?\n\nThis action cannot be undone.`
+    );
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("userToken");
+      const response = await fetch(
+        `http://localhost:5000/api/skills/${skillcard._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to delete skill");
+      }
+
+      // Call the parent component's delete handler
+      if (onDelete) {
+        onDelete(skillcard._id);
+      }
+
+      alert("Skill deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting skill:", error);
+      alert(`Error deleting skill: ${error.message}`);
+    }
+  };
+
+  // Check if current user owns this skill (compare user IDs)
+  const isOwner =
+    currentUser && skillcard.user && currentUser._id === skillcard.user;
+
   return (
     <div className="bg-white shadow-md rounded p-4 border hover:shadow-lg transition-all flex flex-col text-center h-full">
       <img
@@ -100,12 +151,24 @@ This email was generated through SkillSwap platform.`;
 
       <div className="flex-grow"></div>
 
-      <button
-        onClick={handleContactClick}
-        className="mt-4 bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 inline-block cursor-pointer"
-      >
-        📧 Contact Me
-      </button>
+      <div className="flex gap-2 mt-4">
+        <button
+          onClick={handleContactClick}
+          className="flex-1 bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 cursor-pointer"
+        >
+          📧 Contact Me
+        </button>
+
+        {isOwner && (
+          <button
+            onClick={handleDeleteClick}
+            className="bg-red-600 text-white py-2 px-3 rounded hover:bg-red-700 cursor-pointer"
+            title="Delete this skill"
+          >
+            🗑️
+          </button>
+        )}
+      </div>
     </div>
   );
 }

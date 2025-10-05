@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SkillCard from "../components/SkillCard";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
-function Home() {
+function Home({ user }) {
   const [skillcard, setSkillcard] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
@@ -25,6 +25,13 @@ function Home() {
       console.error("Error fetching skills:", error);
       setLoading(false);
     }
+  };
+
+  // Handle skill deletion
+  const handleDeleteSkill = (skillId) => {
+    setSkillcard((prevSkills) =>
+      prevSkills.filter((skill) => skill._id !== skillId)
+    );
   };
 
   // Filter the skills based on search term
@@ -72,7 +79,12 @@ function Home() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-12">
             {filteredSkills.map((skillcard, index) => (
-              <SkillCard key={skillcard._id || index} skillcard={skillcard} />
+              <SkillCard
+                key={skillcard._id || index}
+                skillcard={skillcard}
+                onDelete={handleDeleteSkill}
+                currentUser={user}
+              />
             ))}
           </div>
         )}

@@ -22,10 +22,6 @@ const skillCardSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    image: {
-      type: String,
-      required: false, 
-    },
     email: {
       type: String,
       required: true,
@@ -35,9 +31,13 @@ const skillCardSchema = new mongoose.Schema(
       ref: "User",
       required: false,
     },
+    userProfileImage: {
+      type: String,
+      required: false,
+    },
   },
   {
-    timestamps: true, 
+    timestamps: true,
   }
 );
 

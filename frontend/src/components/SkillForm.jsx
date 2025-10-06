@@ -3,70 +3,49 @@ function SkillForm({ formData, onChange, onSubmit }) {
     <form onSubmit={onSubmit} className="space-y-4">
       <input
         type="text"
-        name="name"
-        placeholder="Your Name"
-        value={formData.name}
-        onChange={onChange}
-        className="w-full p-2 border rounded"
-      />
-      <input
-        type="email"
-        name="email"
-        placeholder="Your Email"
-        value={formData.email}
-        onChange={onChange}
-        className="w-full p-2 border rounded"
-      />
-
-      <input
-        type="text"
         name="skillName"
-        placeholder="Skill You Offer"
+        placeholder="Skill You Offer (e.g., Web Development, Guitar Lessons)"
         value={formData.skillName}
         onChange={onChange}
-        className="w-full p-2 border rounded"
+        required
+        className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
       />
 
       <input
         type="text"
         name="require"
-        placeholder="Skill You Want to Learn"
+        placeholder="Skill You Want to Learn (e.g., Photography, Spanish)"
         value={formData.require}
         onChange={onChange}
-        className="w-full p-2 border rounded"
+        required
+        className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
       />
 
       <textarea
         name="description"
-        placeholder="Describe your offer or goal"
+        placeholder="Describe your skill and what you're looking for in detail..."
         value={formData.description}
         onChange={onChange}
-        className="w-full p-2 border rounded"
+        required
+        rows="4"
+        className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
       />
 
       <input
         type="text"
         name="location"
-        placeholder="Your Location"
+        placeholder="Your Location (e.g., New York, NY)"
         value={formData.location}
         onChange={onChange}
-        className="w-full p-2 border rounded"
-      />
-
-      <input
-        type="text"
-        name="image"
-        placeholder="Profile Image URL (optional)"
-        value={formData.image}
-        onChange={onChange}
-        className="w-full p-2 border rounded"
+        required
+        className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
       />
 
       <button
         type="submit"
-        className="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700"
+        className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 transition-colors font-semibold"
       >
-        Submit
+        Share My Skill
       </button>
     </form>
   );

@@ -10,7 +10,6 @@ function PostSkill({ user }) {
     require: "",
     description: "",
     location: "",
-    image: "",
   });
 
   // Redirect to login if not authenticated

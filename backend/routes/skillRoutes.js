@@ -4,6 +4,7 @@ const {
   addSkill,
   getSkills,
   deleteSkill,
+  getSkillsByUser,
 } = require("../controllers/skillController");
 const { authenticate } = require("../middleware/authMiddleware");
 
@@ -21,5 +22,10 @@ router.post("/offerskill", authenticate, addSkill);
 // @desc    Delete a skill by ID
 // @access  Private (requires authentication)
 router.delete("/:id", authenticate, deleteSkill);
+
+// @route   GET /api/skills/user/:userId
+// @desc    Get skills by user ID
+// @access  Public
+router.get("/user/:userId", getSkillsByUser);
 
 module.exports = router;

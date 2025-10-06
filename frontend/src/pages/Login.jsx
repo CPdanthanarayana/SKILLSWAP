@@ -55,31 +55,34 @@ function Login({ onLogin }) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Sign in to SkillSwap
-        </h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
-          Or{" "}
-          <Link
-            to="/register"
-            className="font-medium text-indigo-600 hover:text-indigo-500"
-          >
-            create a new account
-          </Link>
-        </p>
-      </div>
+    <div
+      className="bg-gray-50 flex items-center justify-center px-4"
+      style={{ height: "calc(100vh - 4rem)" }}
+    >
+      <div className="max-w-md w-full space-y-4">
+        <div className="text-center">
+          <h2 className="text-3xl font-extrabold text-gray-900">
+            Sign in to SkillSwap
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">
+            Or{" "}
+            <Link
+              to="/register"
+              className="font-medium text-indigo-600 hover:text-indigo-500"
+            >
+              create a new account
+            </Link>
+          </p>
+        </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="bg-white py-4 px-6 shadow rounded-lg">
           {error && (
             <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
                 htmlFor="email"

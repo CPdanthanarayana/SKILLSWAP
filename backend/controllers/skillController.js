@@ -3,7 +3,7 @@ const SkillCardModel = require("../models/SkillCardModel");
 //Skill adding - Now requires authentication
 const addSkill = async (req, res) => {
   try {
-    const { skillName, require, description, location, image } = req.body;
+    const { skillName, require, description, location } = req.body;
 
     // Create skill card with authenticated user data
     const skillcard = await SkillCardModel.create({
@@ -11,10 +11,10 @@ const addSkill = async (req, res) => {
       require,
       description,
       location,
-      image: image || "",
       name: req.user.name,
       email: req.user.email,
       user: req.user._id, // Link to authenticated user
+      userProfileImage: req.user.profileImage, // Include user's profile image
     });
 
     console.log("Saved skill:", skillcard);
@@ -65,4 +65,18 @@ const deleteSkill = async (req, res) => {
   }
 };
 
-module.exports = { addSkill, getSkills, deleteSkill };
+//Get skills by user ID
+const getSkillsByUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const skills = await SkillCardModel.find({ user: userId }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(skills);
+  } catch (error) {
+    console.error("Error fetching user skills:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { addSkill, getSkills, deleteSkill, getSkillsByUser };

@@ -13,7 +13,7 @@ const generateToken = (id) => {
 // @access  Public
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password, location, bio } = req.body;
+    const { name, email, password, location, bio, profileImage } = req.body;
 
     // Check if user already exists
     const userExists = await User.findOne({ email });
@@ -23,6 +23,13 @@ const registerUser = async (req, res) => {
         .json({ error: "User already exists with this email" });
     }
 
+    // Generate profile image if not provided
+    const userProfileImage =
+      profileImage ||
+      `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(
+        name
+      )}`;
+
     // Create user
     const user = await User.create({
       name,
@@ -30,6 +37,7 @@ const registerUser = async (req, res) => {
       password,
       location,
       bio: bio || "",
+      profileImage: userProfileImage,
     });
 
     if (user) {
@@ -137,9 +145,36 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
+// @desc    Get user by ID
+// @route   GET /api/auth/user/:id
+// @access  Public
+const getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select("-password");
+
+    if (user) {
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        location: user.location,
+        bio: user.bio,
+        profileImage: user.profileImage,
+        createdAt: user.createdAt,
+      });
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (error) {
+    console.error("User fetch error:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   getUserProfile,
   updateUserProfile,
+  getUserById,
 };

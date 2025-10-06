@@ -1,12 +1,31 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function SkillCard({ skillcard, onDelete, currentUser }) {
-  const { name, description, location, skillName, image, require, email } =
-    skillcard;
+  const navigate = useNavigate();
+  const {
+    name,
+    description,
+    location,
+    skillName,
+    require,
+    email,
+    userProfileImage,
+  } = skillcard;
 
-  const imageUrl = image
-    ? image
-    : `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`;
+  // Use user's profile image or generate one based on their name
+  const imageUrl =
+    userProfileImage ||
+    `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(
+      name
+    )}`;
+
+  const handleProfileClick = () => {
+    const userId = skillcard.user || skillcard.userId;
+    if (userId) {
+      navigate(`/profile/${userId}`);
+    }
+  };
 
   // Create structured email content
   const getEmailContent = () => {
@@ -132,7 +151,9 @@ This email was generated through SkillSwap platform.`;
       <img
         src={imageUrl}
         alt={name}
-        className="w-24 h-24 rounded-full object-cover mx-auto mb-4"
+        className="w-24 h-24 rounded-full object-cover mx-auto mb-4 cursor-pointer hover:ring-4 hover:ring-indigo-300 transition-all"
+        onClick={handleProfileClick}
+        title={`View ${name}'s profile`}
       />
       <h3 className="text-lg font-bold text-indigo-700">{skillName}</h3>
       <p className="mt-2 text-gray-700">{description}</p>
@@ -162,7 +183,7 @@ This email was generated through SkillSwap platform.`;
         {isOwner && (
           <button
             onClick={handleDeleteClick}
-            className="bg-red-600 text-white py-2 px-3 rounded hover:bg-red-700 cursor-pointer"
+            className="bg-white-600 text-white py-2 px-3 rounded hover:bg-red-700 cursor-pointer"
             title="Delete this skill"
           >
             🗑️

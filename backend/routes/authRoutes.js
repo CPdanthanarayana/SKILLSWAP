@@ -5,6 +5,7 @@ const {
   loginUser,
   getUserProfile,
   updateUserProfile,
+  getUserById,
 } = require("../controllers/authController");
 const { authenticate } = require("../middleware/authMiddleware");
 
@@ -27,5 +28,10 @@ router.get("/profile", authenticate, getUserProfile);
 // @desc    Update user profile
 // @access  Private
 router.put("/profile", authenticate, updateUserProfile);
+
+// @route   GET /api/auth/user/:id
+// @desc    Get user by ID
+// @access  Public
+router.get("/user/:id", getUserById);
 
 module.exports = router;

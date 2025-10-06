@@ -5,6 +5,8 @@ import Home from "./pages/Home";
 import PostSkill from "./pages/PostSkill";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Profile from "./pages/Profile";
+import EditProfile from "./pages/EditProfile";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -32,11 +34,14 @@ function App() {
   };
 
   const handleLogout = () => {
+    setUser(null);
     localStorage.removeItem("userToken");
     localStorage.removeItem("userData");
-    setUser(null);
   };
 
+  const handleUserUpdate = (userData) => {
+    setUser(userData);
+  };
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -51,17 +56,40 @@ function App() {
   return (
     <Router>
       <Navbar user={user} onLogout={handleLogout} />
-      <div className="p-4">
-        <Routes>
-          <Route path="/" element={<Home user={user} />} />
-          <Route path="/post" element={<PostSkill user={user} />} />
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          <Route
-            path="/register"
-            element={<Register onLogin={handleLogin} />}
-          />
-        </Routes>
-      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div className="p-4">
+              <Home user={user} />
+            </div>
+          }
+        />
+        <Route
+          path="/post"
+          element={
+            <div className="p-4">
+              <PostSkill user={user} />
+            </div>
+          }
+        />
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/register" element={<Register onLogin={handleLogin} />} />
+        <Route
+          path="/profile/:userId"
+          element={
+            <div className="p-4">
+              <Profile currentUser={user} />
+            </div>
+          }
+        />
+        <Route
+          path="/profile/edit"
+          element={
+            <EditProfile currentUser={user} onUserUpdate={handleUserUpdate} />
+          }
+        />
+      </Routes>
     </Router>
   );
 }

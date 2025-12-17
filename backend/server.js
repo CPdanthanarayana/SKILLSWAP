@@ -11,7 +11,7 @@ connectDB();
 // Enable CORS for frontend communication
 app.use(
   cors({
-    origin: "http://localhost:3000", // React app URL
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
